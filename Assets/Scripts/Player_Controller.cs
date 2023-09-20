@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine.Playables;
+using Unity.VisualScripting;
+using UnityEditor;
 
 public class Player_Controller : MonoBehaviour
 {
     public float speed = 0;
     public TextMeshProUGUI countText;
     public GameObject winTextObject;
-
+    public GameObject parentprefab;
+    private int number;
     private Rigidbody rb;
     private int count;
     private float movementX;
@@ -21,7 +25,8 @@ public class Player_Controller : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         count = 0;
         SetCountText();
-
+        parentprefab = GameObject.FindGameObjectWithTag("PickUpParent");
+        number = parentprefab.GetComponent<Instantiator>().getInstanceNums();
         winTextObject.SetActive(false);
     }
 
@@ -36,7 +41,7 @@ public class Player_Controller : MonoBehaviour
     void SetCountText()
     {
         countText.text = "Count: " + count.ToString();
-        if(count >= 12)
+        if(count >= number)
         {
             winTextObject.SetActive(true);
         }
